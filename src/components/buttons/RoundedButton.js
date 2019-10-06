@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   viewWrapper: {
+    marginHorizontal: 30,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems:'center',
