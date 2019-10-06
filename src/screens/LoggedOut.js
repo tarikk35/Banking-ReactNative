@@ -22,13 +22,15 @@ export default class LoggedOut extends Component {
           <Text style={styles.welcomeText}>High Five Banking</Text>
           <RoundedButton
             text="Log In"
-            textColor={colors.green01}
+            image= {'../../img/login-icon.png'}
+            color={colors.green01}
             backgroundColor={colors.white}
             handleOnPress={this.onLoginPress}></RoundedButton>
           <RoundedButton
             text="Sign Up"
-            textColor={colors.green01}
-            backgroundColor={colors.white}
+            color={colors.white}
+            image= {'../../img/login-icon.png'}
+            backgroundColor={colors.green01}
             handleOnPress={this.onSignupPress}></RoundedButton>
         </View>
       </View>
@@ -46,7 +48,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: colors.white,
     fontWeight: '300',
-    marginBottom: 40,
+    fontFamily:'Montserrat-Regular',
+    marginBottom: 120
   },
   welcomeWrapper: {
     flex: 1,

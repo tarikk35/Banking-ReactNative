@@ -1,16 +1,21 @@
 import React, {Component} from 'react';
-import {Text, View, TouchableHighlight, StyleSheet} from 'react-native';
+import {Text, View, TouchableHighlight, StyleSheet, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import colors from '../../styles/colors';
 
 export default class RoundedButton extends Component {
   render() {
-    const {text, textColor, backgroundColor, handleOnPress} = this.props;
+    const {text, color, backgroundColor, handleOnPress, image} = this.props;
     return (
       <TouchableHighlight
         style={[{backgroundColor}, styles.wrapper]}
         onPress={handleOnPress}>
-        <Text style={[{textColor}, styles.buttonText]}>{text}</Text>
+        <View style={styles.viewWrapper}>
+          <Image
+            style={styles.icon}
+            source={require({image})}></Image>
+          <Text style={[{color}, styles.buttonText]}>{text}</Text>
+        </View>
       </TouchableHighlight>
     );
   }
@@ -18,9 +23,10 @@ export default class RoundedButton extends Component {
 
 RoundedButton.propTypes = {
   text: PropTypes.string.isRequired,
-  textColor: PropTypes.string,
+  color: PropTypes.string,
+  image: PropTypes.string,
   backgroundColor: PropTypes.string,
-  icon: PropTypes.object,
+  icon: PropTypes.string,
   handleOnPress: PropTypes.func.isRequired,
 };
 
@@ -28,17 +34,27 @@ const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
     padding: 15,
-    marginLeft: 50,
-    marginRight: 50,
-    marginBottom:50,
+    alignItems: 'center',
+    marginBottom: 20,
     borderRadius: 40,
     borderWidth: 1,
     borderColor: colors.white,
   },
+  icon: {
+    width: 40,
+    height: 40,
+  },
+  viewWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginLeft: 20,
+  },
   buttonText: {
-    fontSize: 17,
+    fontSize: 19,
     width: '100%',
+    fontWeight: 'bold',
     textAlign: 'center',
+    fontFamily: 'Montserrat-Regular',
   },
   buttonTextWrapper: {
     flexDirection: 'row',
