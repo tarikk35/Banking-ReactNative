@@ -5,15 +5,15 @@ import colors from '../../styles/colors';
 
 export default class RoundedButton extends Component {
   render() {
-    const {text, color, backgroundColor, handleOnPress, image} = this.props;
+    const {text, color, backgroundColor, handleOnPress, imagePath} = this.props;
     return (
       <TouchableHighlight
         style={[{backgroundColor}, styles.wrapper]}
         onPress={handleOnPress}>
         <View style={styles.viewWrapper}>
-          <Image
+        <Image
             style={styles.icon}
-            source={require({image})}></Image>
+            source={imagePath}></Image>
           <Text style={[{color}, styles.buttonText]}>{text}</Text>
         </View>
       </TouchableHighlight>
@@ -24,7 +24,7 @@ export default class RoundedButton extends Component {
 RoundedButton.propTypes = {
   text: PropTypes.string.isRequired,
   color: PropTypes.string,
-  image: PropTypes.string,
+  imagePath: PropTypes.function,
   backgroundColor: PropTypes.string,
   icon: PropTypes.string,
   handleOnPress: PropTypes.func.isRequired,
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: 'center',
     marginBottom: 20,
+    marginHorizontal:30,
     borderRadius: 40,
     borderWidth: 1,
     borderColor: colors.white,
@@ -43,11 +44,13 @@ const styles = StyleSheet.create({
   icon: {
     width: 40,
     height: 40,
+    marginLeft: 40,
   },
   viewWrapper: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginLeft: 20,
+    justifyContent: 'center',
+    alignItems:'center',
+    alignContent:'center',
   },
   buttonText: {
     fontSize: 19,

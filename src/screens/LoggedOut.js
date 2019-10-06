@@ -22,14 +22,14 @@ export default class LoggedOut extends Component {
           <Text style={styles.welcomeText}>High Five Banking</Text>
           <RoundedButton
             text="Log In"
-            image= {'../../img/login-icon.png'}
+            imagePath= {require('../img/login-icon.png')}
             color={colors.green01}
             backgroundColor={colors.white}
             handleOnPress={this.onLoginPress}></RoundedButton>
           <RoundedButton
             text="Sign Up"
             color={colors.white}
-            image= {'../../img/login-icon.png'}
+            imagePath= {require('../img/logo.png')}
             backgroundColor={colors.green01}
             handleOnPress={this.onSignupPress}></RoundedButton>
         </View>
@@ -40,13 +40,16 @@ export default class LoggedOut extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
     display: 'flex',
+    flex: 1,
+    justifyContent:'center',
+    alignItems:'center',
     backgroundColor: colors.green01,
   },
   welcomeText: {
     fontSize: 30,
     color: colors.white,
+    justifyContent:'center',
     fontWeight: '300',
     fontFamily:'Montserrat-Regular',
     marginBottom: 120
@@ -54,6 +57,8 @@ const styles = StyleSheet.create({
   welcomeWrapper: {
     flex: 1,
     display: 'flex',
+    justifyContent:'center',
+    alignItems:'center',
     marginTop: 30,
     padding: 20,
   },
