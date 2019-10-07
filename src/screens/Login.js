@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import InputField from '../components/forms/input';
 import NextArrowButton from '../components/buttons/NextArrowButton';
 import BottomNotification from '../components/BottomNotification';
+import Loader from '../components/Loader';
 
 import {
   View,
@@ -18,11 +19,13 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loadingVisible: false,
       formValid: true,
       validID: false,
       IDNumber: '',
       validPass: false,
     };
+
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
     this.handleIDChange = this.handleIDChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -31,11 +34,15 @@ export default class Login extends Component {
   }
 
   handleNextButton() {
-    if (this.state.IDNumber === '12345678900'&&this.state.validPass) {
-      this.setState({formValid: true});
-    } else {
-      this.setState({formValid: false});
-    }
+    // simulating a slow server
+    this.setState({loadingVisible: true});
+    setTimeout(() => {
+      if (this.state.IDNumber === '12345678900' && this.state.validPass) {
+        this.setState({formValid: true, loadingVisible: false});
+      } else {
+        this.setState({formValid: false, loadingVisible: false});
+      }
+    }, 2000);
   }
 
   handleIDChange(ID) {
@@ -132,6 +139,9 @@ export default class Login extends Component {
                 secondLine={'Please try again.'}></BottomNotification>
             </View>
           </View>
+          <Loader
+            animationType="fade"
+            modalVisible={this.state.loadingVisible}></Loader>
         </KeyboardAvoidingView>
       </LinearGradient>
     );
