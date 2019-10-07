@@ -4,6 +4,7 @@ import colors from '../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import InputField from '../components/forms/input';
 import NextArrowButton from '../components/buttons/NextArrowButton';
+import BottomNotification from '../components/BottomNotification';
 
 import {
   View,
@@ -14,17 +15,32 @@ import {
 } from 'react-native';
 
 export default class Login extends Component {
-  handleNextButton() {
-    alert(' handle button click event ');
+  constructor(props) {
+    super(props);
+    this.state = {
+      formValid: true,
+    };
+    this.handleCloseNotification = this.handleCloseNotification.bind(this);
   }
 
+  handleNextButton() {
+    alert('button click event ');
+  }
 
+  handleCloseNotification() {
+    this.setState({formValid: true});
+  }
 
   render() {
+    const {formValid} = this.state;
+    const showNotification = formValid ? false : true;
+    const backgroundColors = formValid
+      ? [colors.appLightColor, colors.appDarkColor]
+      : [colors.errorLightColor, colors.errorDarkColor];
     return (
       <LinearGradient
         style={styles.gradientContainer}
-        colors={[colors.appLightColor, colors.appDarkColor]}>
+        colors={backgroundColors}>
         <KeyboardAvoidingView style={styles.keyboardAvoidingStyle}>
           <View style={styles.viewStyle}>
             <ScrollView style={styles.scrollViewStyle}>
@@ -38,8 +54,7 @@ export default class Login extends Component {
                   textColor={colors.white}
                   borderBottomColor={colors.white}
                   inputType="email"
-                  customStyle={{marginBottom: 30}}
-                />
+                  customStyle={{marginBottom: 30}}></InputField>
               </View>
               <InputField
                 labelText="Password"
@@ -49,11 +64,19 @@ export default class Login extends Component {
                 textColor={colors.white}
                 borderBottomColor={colors.white}
                 inputType="password"
-                customStyle={{marginBottom: 30}}
-              />
+                customStyle={{marginBottom: 30}}></InputField>
             </ScrollView>
             <View style={styles.nextButtonStyle}>
-              <NextArrowButton handleNextButton={this.handleNextButton} />
+              <NextArrowButton
+                handleNextButton={this.handleNextButton}></NextArrowButton>
+            </View>
+            <View style={showNotification ? {marginTop: 10} : {}}>
+              <BottomNotification
+                showNotification={showNotification}
+                handleCloseNotification={this.handleCloseNotification}
+                notificationType={'Error'}
+                firstLine={'Credentials seems wrong.'}
+                secondLine={'Please try again.'}></BottomNotification>
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -66,8 +89,8 @@ const styles = StyleSheet.create({
   nextButtonStyle: {
     position: 'absolute',
     alignItems: 'flex-end',
-    bottom: 6,
-    right: 10,
+    bottom: 40,
+    right: 30,
   },
 
   inputViewStyle: {
@@ -76,7 +99,7 @@ const styles = StyleSheet.create({
   },
 
   viewStyle: {
-    marginTop: 70,
+    marginTop: 40,
     flex: 1,
   },
 

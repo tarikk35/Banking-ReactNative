@@ -91,14 +91,14 @@ const styles = StyleSheet.create({
   },
   showButtonStyle: {
     position: 'absolute',
-    backgroundColor: colors.appDarkColor,
-    opacity: 0.8,
+    backgroundColor: colors.white,
+    opacity: 0.7,
     borderRadius: 20,
     padding: 4,
     right: 0,
   },
   showPasswordTextStyle: {
-    color: colors.white,
+    color: colors.black,
     fontWeight: '700',
   },
 });
