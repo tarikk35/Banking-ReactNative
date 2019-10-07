@@ -19,12 +19,57 @@ export default class Login extends Component {
     super(props);
     this.state = {
       formValid: true,
+      validID: false,
+      IDNumber: '',
+      validPass: false,
     };
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
+    this.handleIDChange = this.handleIDChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleNextButton = this.handleNextButton.bind(this);
+    this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
   }
 
   handleNextButton() {
-    alert('button click event ');
+    if (this.state.IDNumber === '12345678900'&&this.state.validPass) {
+      this.setState({formValid: true});
+    } else {
+      this.setState({formValid: false});
+    }
+  }
+
+  handleIDChange(ID) {
+    const IDCheckReg = /[0-9]{11}/;
+    this.setState({
+      IDNumber: ID,
+    });
+    if (!this.state.validID) {
+      if (IDCheckReg.test(ID)) {
+        this.setState({validID: true});
+      }
+    } else {
+      if (!IDCheckReg.test(ID)) {
+        this.setState({validID: false});
+      }
+    }
+  }
+
+  handlePasswordChange(password) {
+    if (!this.state.validPass) {
+      if (password.length > 4) {
+        this.setState({validPass: true});
+      }
+    } else if (password.length <= 4) {
+      this.setState({validPass: false});
+    }
+  }
+
+  toggleNextButtonState() {
+    const {validID, validPass} = this.state;
+    if (validID && validPass) {
+      return false;
+    }
+    return true;
   }
 
   handleCloseNotification() {
@@ -37,6 +82,7 @@ export default class Login extends Component {
     const backgroundColors = formValid
       ? [colors.appLightColor, colors.appDarkColor]
       : [colors.errorLightColor, colors.errorDarkColor];
+    const notificationMarginTop = showNotification ? 10 : 0;
     return (
       <LinearGradient
         style={styles.gradientContainer}
@@ -47,14 +93,15 @@ export default class Login extends Component {
               <Text style={styles.loginHeader}>Log In</Text>
               <View style={styles.inputViewStyle}>
                 <InputField
-                  labelText="E Mail"
+                  labelText="TCID"
                   inputType={'text'}
                   labelTextSize={14}
                   labelColor={colors.white}
                   textColor={colors.white}
                   borderBottomColor={colors.white}
                   inputType="email"
-                  customStyle={{marginBottom: 30}}></InputField>
+                  customStyle={{marginBottom: 30}}
+                  onChangeText={this.handleIDChange}></InputField>
               </View>
               <InputField
                 labelText="Password"
@@ -64,13 +111,19 @@ export default class Login extends Component {
                 textColor={colors.white}
                 borderBottomColor={colors.white}
                 inputType="password"
-                customStyle={{marginBottom: 30}}></InputField>
+                customStyle={{marginBottom: 30}}
+                onChangeText={this.handlePasswordChange}></InputField>
             </ScrollView>
             <View style={styles.nextButtonStyle}>
               <NextArrowButton
+                disabled={this.toggleNextButtonState()}
                 handleNextButton={this.handleNextButton}></NextArrowButton>
             </View>
-            <View style={showNotification ? {marginTop: 10} : {}}>
+            <View
+              style={[
+                styles.notificationWrapper,
+                {marginTop: notificationMarginTop},
+              ]}>
               <BottomNotification
                 showNotification={showNotification}
                 handleCloseNotification={this.handleCloseNotification}
@@ -91,6 +144,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     bottom: 40,
     right: 30,
+  },
+
+  notificationWrapper: {
+    bottom: 0,
+    zIndex: 9,
   },
 
   inputViewStyle: {
