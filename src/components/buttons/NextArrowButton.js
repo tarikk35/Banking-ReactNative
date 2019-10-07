@@ -3,12 +3,12 @@ import {Text, View, TouchableHighlight, StyleSheet, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import colors from '../../styles/colors';
 
-export default class RoundedButton extends Component {
+export default class NextArrowButton extends Component {
   render() {
-    const { disabled } = this.props;
+    const { disabled,handleNextButton } = this.props;
     const opacityStyle = disabled ? { backgroundColor: 'rgba(255, 255, 255, 0.2)' } : { backgroundColor: 'rgba(255, 255, 255, 0.6)'}
     return (
-      <TouchableHighlight style = {styles.buttonStyle}>
+      <TouchableHighlight style = {styles.buttonStyle} onPress={handleNextButton}>
         <Image 
             source = {require('../../img/next-button2.png')} 
             name = "back-login"
@@ -18,6 +18,11 @@ export default class RoundedButton extends Component {
     );
   }
 }
+
+NextArrowButton.PropTypes={
+  disabled:PropTypes.bool,
+  handleNextButton:PropTypes.func,
+};
 
 
 const styles = StyleSheet.create({
@@ -31,9 +36,9 @@ const styles = StyleSheet.create({
     }, 
 
     iconStyle: {
-        padding: 40,
-        width: 20,
-        height: 10,        
+        padding: 30,
+        width: 40,
+        height: 40,        
       
     }
 
