@@ -3,71 +3,69 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 
 import colors from '../styles/colors';
 import RoundedButton from '../components/buttons/RoundedButton';
-import  LinearGradient  from 'react-native-linear-gradient';
+import LinearGradient from 'react-native-linear-gradient';
 
-
-export default class LoggedOut extends Component {
+export default class LoggedOut extends React.Component {
   onLoginPress() {
-    
+    this.props.navigate('Login');
   }
 
-  onSignupPress() {
-    alert('Signup button pressed');
-  }
+  onSignupPress() {}
   render() {
+    const {navigate} = this.props.navigation;
     return (
-
-      <LinearGradient style = {styles.gradientContainer} colors = {[colors.appLightColor, colors.appDarkColor ]} >
-      <View style={styles.wrapper}>
-        <View style={styles.welcomeWrapper}>
-          <Image
-            source={require('../img/bank-icon.png')}
-            style={styles.logo}></Image>
-          <Text style={styles.welcomeText}>High Five Banking</Text>
-          <RoundedButton
-            text="Log In"
-            imagePath= {require('../img/login-icon.png')}
-            color={ colors.appDarkColor }
-            backgroundColor={colors.white}
-            handleOnPress={this.onLoginPress}></RoundedButton>
-          <RoundedButton
-            text="Sign Up"
-            color={colors.white}
-            imagePath= {require('../img/signup-icon.png')}
-            backgroundColor={ colors.appDarkColor }
-            handleOnPress={this.onSignupPress}></RoundedButton>
+      <LinearGradient
+        style={styles.gradientContainer}
+        colors={[colors.appLightColor, colors.appDarkColor]}>
+        <View style={styles.wrapper}>
+          <View style={styles.welcomeWrapper}>
+            <Image
+              source={require('../img/bank-icon.png')}
+              style={styles.logo}></Image>
+            <Text style={styles.welcomeText}>High Five Banking</Text>
+            <RoundedButton
+              text="Log In"
+              imagePath={require('../img/login-icon.png')}
+              color={colors.appDarkColor}
+              backgroundColor={colors.white}
+              handleOnPress={() => navigate('Login')}></RoundedButton>
+            <RoundedButton
+              text="Sign Up"
+              color={colors.white}
+              imagePath={require('../img/signup-icon.png')}
+              backgroundColor={colors.appDarkColor}
+              handleOnPress={()=>navigate()}></RoundedButton>
+          </View>
         </View>
-      </View>
       </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
-
   gradientContainer: {
-    flex: 1
+    flex: 1,
   },
   wrapper: {
     display: 'flex',
     flex: 1,
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   welcomeText: {
     fontSize: 30,
     color: colors.white,
-    justifyContent:'center',
+    justifyContent: 'center',
     fontWeight: '300',
-    fontFamily:'Montserrat-Regular',
+    fontFamily: 'Montserrat-Regular',
     marginBottom: 100,
-    marginTop: 30
+    marginTop: 30,
   },
   welcomeWrapper: {
     flex: 1,
     display: 'flex',
-    justifyContent:'center',
-    alignItems:'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 16,
   },
   logo: {

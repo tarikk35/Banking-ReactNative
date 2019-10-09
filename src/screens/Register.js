@@ -23,8 +23,12 @@ export default class Login extends Component {
       loadingVisible: false,
       formValid: true,
       validID: false,
-      IDNumber: '',
+      validName: false,
       validPass: false,
+      validAddress: false,
+      validPhone: false,
+      IDNumber: '',
+      termsAccepted: false,
     };
 
     this.handleCloseNotification = this.handleCloseNotification.bind(this);
@@ -85,7 +89,6 @@ export default class Login extends Component {
   }
 
   render() {
-    const {goBack} = this.props.navigation;
     const {formValid} = this.state;
     const showNotification = formValid ? false : true;
     const backgroundColors = formValid
@@ -99,7 +102,7 @@ export default class Login extends Component {
         <KeyboardAvoidingView style={styles.keyboardAvoidingStyle}>
           <View style={styles.viewStyle}>
             <ScrollView style={styles.scrollViewStyle}>
-              <BackButton handleNextButton={() => goBack()}></BackButton>
+              <BackButton></BackButton>
               <Text style={styles.loginHeader}>Log In</Text>
               <View style={styles.inputViewStyle}>
                 <InputField

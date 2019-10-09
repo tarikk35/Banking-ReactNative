@@ -59,7 +59,8 @@ export default class InputField extends Component {
             {color: inputColor, borderBottomColor: borderColor},
             styles.inputField,
           ]}
-          keyboardType={inputType === 'email' ? 'numeric' : 'default'}
+          underlineColorAndroid='transparent'
+          keyboardType={inputType === 'email' ? 'numeric' : 'twitter'}
           autoCorrect={false}
           secureTextEntry={secureInput}
           onChangeText={onChangeText}
