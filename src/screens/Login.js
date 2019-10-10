@@ -47,7 +47,7 @@ export default class Login extends Component {
   }
 
   handleIDChange(ID) {
-    const IDCheckReg = /[0-9]{11}/;
+    const IDCheckReg = /^((?!(0))[0-9]{11})$/g; // dont start with 0, only numeric and only 11 characters allowed.
     this.setState({
       IDNumber: ID,
     });
@@ -98,9 +98,11 @@ export default class Login extends Component {
         colors={backgroundColors}>
         <KeyboardAvoidingView style={styles.keyboardAvoidingStyle}>
           <View style={styles.viewStyle}>
-            <ScrollView style={styles.scrollViewStyle}>
+            <View style={styles.topContent}>
               <BackButton handleNextButton={() => goBack()}></BackButton>
               <Text style={styles.loginHeader}>Log In</Text>
+            </View>
+            <ScrollView style={styles.scrollViewStyle}>
               <View style={styles.inputViewStyle}>
                 <InputField
                   labelText="TCID"
@@ -155,8 +157,13 @@ const styles = StyleSheet.create({
   nextButtonStyle: {
     position: 'absolute',
     alignItems: 'flex-end',
-    bottom: 40,
+    bottom: 10,
     right: 30,
+  },
+
+  topContent: {
+    flexDirection: 'row',
+    width: '100%',
   },
 
   notificationWrapper: {
@@ -177,7 +184,8 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     color: colors.white,
-    marginStart: 10,
+    left: '50%',
+    marginTop: 40,
     marginBottom: 10,
     fontFamily: 'Montserrat-Regular',
   },

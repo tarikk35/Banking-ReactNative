@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 export default class InputField extends Component {
   constructor(props) {
@@ -55,11 +56,8 @@ export default class InputField extends Component {
           </TouchableOpacity>
         ) : null}
         <TextInput
-          style={[
-            {color: inputColor, borderBottomColor: borderColor},
-            styles.inputField,
-          ]}
-          underlineColorAndroid='transparent'
+          style={[{borderBottomColor: borderColor}, styles.inputField]}
+          backgroundColor={colors.white}
           keyboardType={inputType === 'email' ? 'numeric' : 'twitter'}
           autoCorrect={false}
           secureTextEntry={secureInput}
@@ -83,7 +81,10 @@ const styles = StyleSheet.create({
   inputField: {
     borderBottomWidth: 1,
     paddingTop: 1,
+    color: colors.black,
     paddingBottom: 1,
+    fontSize: 21,
+    borderRadius: 4,
   },
 
   viewStyle: {
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontWeight: 'bold',
     marginBottom: 10,
+    marginLeft: 20,
   },
   showButtonStyle: {
     position: 'absolute',

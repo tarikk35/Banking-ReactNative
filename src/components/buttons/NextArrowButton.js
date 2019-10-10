@@ -8,7 +8,10 @@ export default class NextArrowButton extends Component {
     const {disabled, handleNextButton} = this.props;
     const opacityStyle = disabled ? 0.2 : 0.8;
     return (
-      <TouchableHighlight style={styles.buttonStyle} onPress={handleNextButton}>
+      <TouchableHighlight
+        disabled={disabled ? true : false}
+        style={styles.buttonStyle}
+        onPress={handleNextButton}>
         <Image
           source={require('../../img/next-button2.png')}
           name="back-login"
@@ -30,14 +33,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
-    width: 75,
-    height: 75,
+    bottom: 0,
   },
 
   iconStyle: {
-    padding: 30,
+    padding: 12,
     width: 40,
     height: 40,
-    borderRadius: 40,
+    bottom: 0,
   },
 });

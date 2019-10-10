@@ -5,6 +5,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 
 import LoggedOut from './src/screens/LoggedOut';
 import Login from './src/screens/Login';
+import Register from './src/screens/Register';
 
 const AppNavigator = createStackNavigator(
   {
@@ -21,7 +22,7 @@ const AppNavigator = createStackNavigator(
       },
     },
     Register: {
-      screen: Login,
+      screen: Register,
       navigationOptions: {
         header: null,
       },
