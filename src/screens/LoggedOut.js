@@ -22,19 +22,19 @@ export default class LoggedOut extends React.Component {
             <Image
               source={require('../img/bank-icon.png')}
               style={styles.logo}></Image>
-            <Text style={styles.welcomeText}>High Five Banking</Text>
+            <Text style={styles.welcomeText}>High Five Bankacılık</Text>
             <RoundedButton
-              text="Log In"
+              text="Giriş Yap"
               imagePath={require('../img/login-icon.png')}
               color={colors.appDarkColor}
               backgroundColor={colors.white}
               handleOnPress={() => navigate('Login')}></RoundedButton>
             <RoundedButton
-              text="Sign Up"
+              text="Kayıt Ol"
               color={colors.white}
               imagePath={require('../img/signup-icon.png')}
               backgroundColor={colors.appDarkColor}
-              handleOnPress={()=>navigate('Register')}></RoundedButton>
+              handleOnPress={()=>navigate('Test')}></RoundedButton>
           </View>
         </View>
       </LinearGradient>

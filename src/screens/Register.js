@@ -14,8 +14,17 @@ import RadioForm, {
 } from 'react-native-simple-radio-button';
 
 import {
-  View,
+  Container,
+  Header,
+  Content,
+  ListItem,
+  CheckBox,
   Text,
+  Body,
+} from 'native-base';
+
+import {
+  View,
   ScrollView,
   StyleSheet,
   KeyboardAvoidingView,
@@ -205,8 +214,10 @@ export default class Register extends Component {
                 showNotification={showNotification}
                 handleCloseNotification={this.handleCloseNotification}
                 notificationType={'Error'}
-                firstLine={'Credentials seems wrong.'}
-                secondLine={'Please try again.'}></BottomNotification>
+                firstLine={'Lütfen alanları eksiksiz ve hatasız'}
+                secondLine={
+                  'doldurduğunuzdan emin olunuz.'
+                }></BottomNotification>
             </View>
           </View>
 
@@ -229,7 +240,7 @@ const styles = StyleSheet.create({
   },
 
   radioStyle: {
-    color:'#2ecc71'
+    color: '#2ecc71',
   },
   passViewStyle: {
     flexDirection: 'row',

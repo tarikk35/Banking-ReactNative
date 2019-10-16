@@ -51,7 +51,7 @@ export default class InputField extends Component {
             style={styles.showButtonStyle}
             onPress={this.toggleShowPassword}>
             <Text style={styles.showPasswordTextStyle}>
-              {secureInput ? 'Show' : 'Hide'}
+              {secureInput ? 'Göster' : 'Gizle'}
             </Text>
           </TouchableOpacity>
         ) : null}
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     color: colors.black,
     paddingBottom: 1,
     fontSize: 21,
-    borderRadius: 4,
+    borderRadius: 6,
   },
 
   viewStyle: {

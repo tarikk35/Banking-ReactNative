@@ -24,6 +24,7 @@ export default class Login extends Component {
       formValid: true,
       validID: false,
       IDNumber: '',
+      pass: '',
       validPass: false,
     };
 
@@ -34,16 +35,21 @@ export default class Login extends Component {
     this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
   }
 
-  handleNextButton() {
-    // simulating a slow server
+  async handleNextButton() {
     this.setState({loadingVisible: true});
-    setTimeout(() => {
-      if (this.state.IDNumber === '12345678900' && this.state.validPass) {
-        this.setState({formValid: true, loadingVisible: false});
-      } else {
-        this.setState({formValid: false, loadingVisible: false});
-      }
-    }, 2000);
+    try {
+      const response = await fetch(
+        'http://10.0.2.2:3000/users?TCID=' +
+          this.state.IDNumber +
+          '&&pass=' +
+          this.state.pass,
+      );
+      const responseJson = await response.json();
+      console.log(responseJson[0]);
+    } catch (error) {
+      console.error(error);
+    }
+    this.setState({loadingVisible: false});
   }
 
   handleIDChange(ID) {
@@ -65,10 +71,10 @@ export default class Login extends Component {
   handlePasswordChange(password) {
     if (!this.state.validPass) {
       if (password.length > 4) {
-        this.setState({validPass: true});
+        this.setState({validPass: true, pass: password});
       }
     } else if (password.length <= 4) {
-      this.setState({validPass: false});
+      this.setState({validPass: false, pass: null});
     }
   }
 
@@ -100,12 +106,12 @@ export default class Login extends Component {
           <View style={styles.viewStyle}>
             <View style={styles.topContent}>
               <BackButton handleNextButton={() => goBack()}></BackButton>
-              <Text style={styles.loginHeader}>Log In</Text>
+              <Text style={styles.loginHeader}>Giriş Yap</Text>
             </View>
             <ScrollView style={styles.scrollViewStyle}>
               <View style={styles.inputViewStyle}>
                 <InputField
-                  labelText="TCID"
+                  labelText="TCKN"
                   inputType={'text'}
                   labelTextSize={14}
                   labelColor={colors.white}
@@ -116,7 +122,7 @@ export default class Login extends Component {
                   onChangeText={this.handleIDChange}></InputField>
               </View>
               <InputField
-                labelText="Password"
+                labelText="Şifre"
                 inputType={'password'}
                 labelTextSize={14}
                 labelColor={colors.white}
@@ -139,9 +145,9 @@ export default class Login extends Component {
               <BottomNotification
                 showNotification={showNotification}
                 handleCloseNotification={this.handleCloseNotification}
-                notificationType={'Error'}
-                firstLine={'Credentials seems wrong.'}
-                secondLine={'Please try again.'}></BottomNotification>
+                notificationType={'Hata'}
+                firstLine={'Kimlik bilgileriniz yanlış'}
+                secondLine={' lütfen tekrar deneyiniz.'}></BottomNotification>
             </View>
           </View>
           <Loader

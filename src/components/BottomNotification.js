@@ -49,12 +49,17 @@ export default class BottomNotification extends Component {
       ? this.animateNotification(0)
       : this.animateNotification(-60);
     const {positionValue} = this.state;
-
     return (
-      <Animated.View
-        style={[{marginBottom: positionValue}, styles.wrapper]}>
+      <Animated.View style={[{marginBottom: positionValue}, styles.wrapper]}>
         <View style={styles.notificationContent}>
-          <Text style={styles.errorText}>{notificationType}</Text>
+          <Text
+            style={
+              notificationType === 'Hata'
+                ? styles.errorText
+                : styles.successText
+            }>
+            {notificationType}
+          </Text>
           <Text style={styles.errorMessage}>{firstLine}</Text>
           <Text style={styles.errorMessage}>{secondLine}</Text>
         </View>
@@ -104,10 +109,16 @@ const styles = StyleSheet.create({
     width: 50,
     height: 20,
     right: 0,
-    bottom:10,
+    bottom: 10,
   },
   errorText: {
     color: '#d93900',
+    marginRight: 5,
+    fontSize: 14,
+    marginBottom: 2,
+  },
+  successText: {
+    color: '#7CFC00',
     marginRight: 5,
     fontSize: 14,
     marginBottom: 2,
