@@ -239,10 +239,7 @@ export default class Register extends Component {
                 onPress={value => {
                   this.setState({genderValue: value});
                 }}></RadioForm>
-              <Button
-                onPress={() => {
-                  this.props.navigation.navigate('LoggedInStack');
-                }}></Button>
+              
             </ScrollView>
             <View style={styles.nextButtonStyle}>
               <NextArrowButton

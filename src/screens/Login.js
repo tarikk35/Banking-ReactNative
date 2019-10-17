@@ -35,17 +35,21 @@ export default class Login extends Component {
     this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
   }
 
-  async handleNextButton() {
+  async handleNextButton(navigate) {
     this.setState({loadingVisible: true});
+
     try {
-      const response = await fetch(
-        'http://10.0.2.2:3000/users?TCID=' +
-          this.state.IDNumber +
-          '&&pass=' +
-          this.state.pass,
-      );
-      const responseJson = await response.json();
-      console.log(responseJson[0]);
+      const response = await fetch('http://10.0.2.2:52887/api/Customers');
+      console.log(response);
+      // const responseJson = await response.json();
+      // console.log(responseJson[0]);
+      // if (responseJson[0]) {
+      //   // Login Credentials are correct and not null
+      //   // this.setState({formValid: true});
+      //   // navigate('LoggedInStack');
+      // } else {
+      //   this.setState({formValid: false});
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -69,13 +73,13 @@ export default class Login extends Component {
   }
 
   handlePasswordChange(password) {
-    if (!this.state.validPass) {
-      if (password.length > 4) {
-        this.setState({validPass: true, pass: password});
-      }
+    this.setState({pass: password});
+    if (password.length > 4) {
+      this.setState({validPass: true});
     } else if (password.length <= 4) {
-      this.setState({validPass: false, pass: null});
+      this.setState({validPass: false});
     }
+    console.log(this.state.pass);
   }
 
   toggleNextButtonState() {
@@ -91,7 +95,7 @@ export default class Login extends Component {
   }
 
   render() {
-    const {goBack} = this.props.navigation;
+    const {goBack, navigate} = this.props.navigation;
     const {formValid} = this.state;
     const showNotification = formValid ? false : true;
     const backgroundColors = formValid
@@ -135,7 +139,9 @@ export default class Login extends Component {
             <View style={styles.nextButtonStyle}>
               <NextArrowButton
                 disabled={this.toggleNextButtonState()}
-                handleNextButton={this.handleNextButton}></NextArrowButton>
+                handleNextButton={() => {
+                  this.handleNextButton(navigate);
+                }}></NextArrowButton>
             </View>
             <View
               style={[
