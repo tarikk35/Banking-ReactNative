@@ -1,9 +1,16 @@
-export default{
-    black:'#000000',
-    white:'#ffffff',
+export default {
+    black: '#000000',
+    white: '#ffffff',
     appLightColor: "#494ca2",
     appDarkColor: "#293462",
     errorLightColor: '#D21F3C',
     errorDarkColor: '#960018',
-     
+    grey1: '#636267', 
+    grey2: '#7C7B80', 
+    grey3: '#48484A', 
+    grey4: '#545456', 
+    grey5: '#3A3A3C', 
+    grey6: '#444446', 
+    grey7: '#2C2C2E', 
+    grey8: '#363638',
 }

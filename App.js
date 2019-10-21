@@ -29,6 +29,8 @@ import Test from './src/screens/Test';
 import Home from './src/screens/Home';
 import Home2 from './src/screens/Home2';
 import colors from './src/styles/colors';
+import Homepage from './src/screens/Homepage';
+import Transfer from './src/screens/Transfer';
 
 const ripple = TouchableNativeFeedback.Ripple('#adacac', false);
 
@@ -147,6 +149,14 @@ const LoggedOutStack = createStackNavigator(
       screen: Test,
       navigationOptions: {header: null},
     },
+    Homepage: {
+      screen: Homepage,
+      navigationOptions: {header: null},
+    },
+    Transfer:{
+      screen:Transfer,
+      navigationOptions:{header:null},
+    }
   },
   {
     initialRouteName: 'LoggedOut',
