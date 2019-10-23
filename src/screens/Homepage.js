@@ -6,7 +6,7 @@ import {
   ColorPropType,
 } from "react-native";
 import LinearGradient from 'react-native-linear-gradient';
-import { Container, Header, Footer, FooterTab, Button, Text, Content, Card, CardItem, Body, Icon, Left, Thumbnail } from 'native-base';
+import { Container, Header,Button, Text, Content, Card, CardItem, Body, Icon, Left, Thumbnail } from 'native-base';
 import Colors from '../styles/colors';
 import BackButton from '../components/buttons/BackButton';
 //import { Icon } from "react-native-vector-icons/Icon";
@@ -51,12 +51,12 @@ class Homepage extends Component {
           </Content>
           <Card style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
             <CardItem>
-              <Button primary style={styles.button}>
+              <Button primary style={styles.button} onPress={() => navigate('PutMoney')}>
                 <Text>Para Çekme</Text>
               </Button>
             </CardItem>
             <CardItem>
-              <Button primary style={styles.button}>
+              <Button primary style={styles.button} onPress={() => navigate('PutMoney')}>
                 <Text>Para Yatırma</Text>
               </Button>
             </CardItem>
@@ -68,7 +68,7 @@ class Homepage extends Component {
               </Button>
             </CardItem>
             <CardItem style={{ flexDirection: 'row' }}>
-              <Button primary style={styles.button}>
+              <Button primary style={styles.button} onPress={() => navigate('Virman')}>
                 <Text>Virman</Text>
               </Button>
             </CardItem>
@@ -93,7 +93,4 @@ const styles = StyleSheet.create({
 
   },
   button: { width: 200, height: 60, justifyContent: 'center' },
-
-
-
 });

@@ -31,6 +31,9 @@ import Home2 from './src/screens/Home2';
 import colors from './src/styles/colors';
 import Homepage from './src/screens/Homepage';
 import Transfer from './src/screens/Transfer';
+import PutMoney from './src/screens/PutMoney';
+import PullMoney from './src/screens/PullMoney';
+import Virman from './src/screens/Virman';
 
 const ripple = TouchableNativeFeedback.Ripple('#adacac', false);
 
@@ -156,8 +159,21 @@ const LoggedOutStack = createStackNavigator(
     Transfer:{
       screen:Transfer,
       navigationOptions:{header:null},
-    }
+    },
+    PutMoney:{
+      screen:PutMoney,
+      navigationOptions:{header:null},
+   },
+   PullMoney:{
+     screen:PullMoney,
+     navigationOptions:{header:null},
+   },
+   Virman:{
+     screen:Virman,
+     navigationOptions:{header:null}
+   }
   },
+  
   {
     initialRouteName: 'LoggedOut',
   },

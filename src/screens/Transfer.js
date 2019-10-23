@@ -51,6 +51,7 @@ class Transfer extends Component {
 
                     </Form>
                 </Container>
+                
             </LinearGradient>
         );
     }
