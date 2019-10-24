@@ -37,10 +37,24 @@ export default class Login extends Component {
 
   async handleNextButton(navigate) {
     this.setState({loadingVisible: true});
-
     try {
-      const response = await fetch('http://10.0.2.2:52887/api/Customers');
-      console.log(response);
+      const response = await fetch('http://172.20.10.3/api/Login', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          tc: this.state.IDNumber,
+          pass: this.state.pass,
+        },
+      })
+        // .then(data => data.json())
+        .catch(error => console.error(error));
+
+      if (response['status'] == '200') {
+        this.props.navigation.navigate('LoggedInStack');
+      } else {
+        this.setState({formValid: false});
+      }
       // const responseJson = await response.json();
       // console.log(responseJson[0]);
       // if (responseJson[0]) {
@@ -79,7 +93,6 @@ export default class Login extends Component {
     } else if (password.length <= 4) {
       this.setState({validPass: false});
     }
-    console.log(this.state.pass);
   }
 
   toggleNextButtonState() {

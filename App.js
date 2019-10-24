@@ -34,6 +34,7 @@ import Transfer from './src/screens/Transfer';
 import PutMoney from './src/screens/PutMoney';
 import PullMoney from './src/screens/PullMoney';
 import Virman from './src/screens/Virman';
+import Account from './src/screens/Accounts';
 
 const ripple = TouchableNativeFeedback.Ripple('#adacac', false);
 
@@ -98,9 +99,26 @@ const CustomDrawerComponent = props => (
 
 const LoggedInDrawer = createDrawerNavigator(
   {
-    'Ana Sayfa': {screen: Home},
-    Hesaplarım: {screen: Home2},
-    Profilim: {screen: Home},
+    'Ana Sayfa': {
+      screen: Homepage,
+      navigationOptions: {header: null},
+    },
+    Havale: {
+      screen: Transfer,
+      navigationOptions: {header: null},
+    },
+    'Para Yatır': {
+      screen: PutMoney,
+      navigationOptions: {header: null},
+    },
+    'Para Çek': {
+      screen: PullMoney,
+      navigationOptions: {header: null},
+    },
+    Virman: {
+      screen: Virman,
+      navigationOptions: {header: null},
+    },
   },
   {
     drawerLockMode: 'locked-open',
@@ -120,6 +138,7 @@ const LoggedInDrawer = createDrawerNavigator(
 const LoggedInStack = createStackNavigator(
   {
     Drawer: {screen: LoggedInDrawer},
+    Account: {screen: Account},
   },
   {
     defaultNavigationOptions: {
@@ -156,24 +175,9 @@ const LoggedOutStack = createStackNavigator(
       screen: Homepage,
       navigationOptions: {header: null},
     },
-    Transfer:{
-      screen:Transfer,
-      navigationOptions:{header:null},
-    },
-    PutMoney:{
-      screen:PutMoney,
-      navigationOptions:{header:null},
-   },
-   PullMoney:{
-     screen:PullMoney,
-     navigationOptions:{header:null},
-   },
-   Virman:{
-     screen:Virman,
-     navigationOptions:{header:null}
-   }
+    Home: {screen: Home, navigationOptions: {header: null}},
   },
-  
+
   {
     initialRouteName: 'LoggedOut',
   },
