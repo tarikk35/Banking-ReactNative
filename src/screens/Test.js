@@ -7,11 +7,7 @@ import NextArrowButton from '../components/buttons/NextArrowButton';
 import BottomNotification from '../components/BottomNotification';
 import Loader from '../components/Loader';
 import BackButton from '../components/buttons/BackButton';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
+import RadioForm from 'react-native-simple-radio-button';
 
 import {
   View,
@@ -20,7 +16,6 @@ import {
   Text,
   KeyboardAvoidingView,
 } from 'react-native';
-import {Button} from 'native-base';
 
 export default class Register extends Component {
   // TODO: formState 1,2,3 3 aşamalı kayıt için. 3.state olunca register olmaya çalış .
@@ -53,16 +48,32 @@ export default class Register extends Component {
     this.test = this.test.bind(this);
   }
 
-  handleNextButton() {
+  async handleNextButton() {
     // TODO: go to next register page.
+    const genders = ['Erkek', 'Kadın', 'Diğer'];
     this.setState({loadingVisible: true});
-    setTimeout(() => {
-      if (this.state.IDNumber === '12345678900' && this.state.validPass) {
-        this.setState({formValid: true, loadingVisible: false});
-      } else {
-        this.setState({formValid: false, loadingVisible: false});
-      }
-    }, 2000);
+    const response = await fetch('http://192.168.2.240/api/Login/Register', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        TCKN: this.state.IDNumber,
+        password: this.state.pass,
+        firstName: this.state.name,
+        surname: this.state.surname,
+        gender: genders[this.state.genderValue],
+      }),
+    })
+      // .then(data => (data['status'] == 200 ? data.json() : null))
+      .catch(error => console.error(error));
+    this.setState({showNotification: true});
+    if (response['status'] > 200) {
+      this.setState({formValid: false});
+    }
+    console.log(response);
+    this.setState({loadingVisible: false});
   }
 
   test() {
@@ -114,19 +125,31 @@ export default class Register extends Component {
   }
 
   handleNameChange(name) {
-    if (name.trim() !== '' && name.length > 2) {
+    const nameReg = /[a-zA-ZöÖüÜçÇşŞİığĞ]{3}/;
+    if (nameReg.test(name)) {
       this.setState({name: name});
+    } else {
+      this.setState({name: ''});
     }
   }
   handleSurnameChange(surname) {
-    if (surname.trim() !== '' && surname.length > 1) {
+    const surnameReg = /[a-zA-ZöÖüÜçÇşŞİığĞ]{2}/;
+    if (surnameReg.test(surname)) {
       this.setState({surname: surname});
+    } else {
+      this.setState({surname: ''});
     }
   }
 
   toggleNextButtonState() {
-    const {validID, validPass} = this.state;
-    if (validID && validPass) {
+    const {validID, validPass, matchingPass, name, surname} = this.state;
+    if (
+      validID &&
+      validPass &&
+      matchingPass &&
+      name.length !== 0 &&
+      surname.length !== 0
+    ) {
       return false;
     }
     return true;
@@ -239,7 +262,6 @@ export default class Register extends Component {
                 onPress={value => {
                   this.setState({genderValue: value});
                 }}></RadioForm>
-              
             </ScrollView>
             <View style={styles.nextButtonStyle}>
               <NextArrowButton

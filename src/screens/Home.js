@@ -7,35 +7,35 @@ import {
   TouchableOpacity,
   ScrollView,
   ListView,
+  TextInput,
 } from 'react-native';
-import {Container, Header, Left} from 'native-base';
+import {Container, Header, Left, Body, Right, Title} from 'native-base';
 import Colors from '../styles/colors';
 import PropTypes from 'prop-types';
 
-class MenuButton extends Component {
+class HeaderWithDrawer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      text: '',
+    };
   }
 
   render() {
     return (
-      <Container>
-        <Header>
-          <Left>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Image
-                style={{width: 26, height: 26, left: -110, top: 2}}
-                source={require('../img/menu.png')}></Image>
-            </TouchableOpacity>
-          </Left>
-        </Header>
-      </Container>
+      <View>
+        <TextInput
+          value={this.state.text}
+          onChangeText={text => console.log(text)}></TextInput>
+      </View>
     );
   }
 }
 
-export default MenuButton;
+HeaderWithDrawer.PropTypes = {
+  title: PropTypes.string.isRequired,
+};
+
+export default HeaderWithDrawer;
 
 const styles = StyleSheet.create({});

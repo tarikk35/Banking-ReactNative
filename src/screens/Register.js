@@ -7,26 +7,14 @@ import NextArrowButton from '../components/buttons/NextArrowButton';
 import BottomNotification from '../components/BottomNotification';
 import Loader from '../components/Loader';
 import BackButton from '../components/buttons/BackButton';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
-
-import {
-  Container,
-  Header,
-  Content,
-  ListItem,
-  CheckBox,
-  Text,
-  Body,
-} from 'native-base';
+import RadioForm from 'react-native-simple-radio-button';
+import Store from '../Store';
 
 import {
   View,
   ScrollView,
   StyleSheet,
+  Text,
   KeyboardAvoidingView,
 } from 'react-native';
 
@@ -39,8 +27,13 @@ export default class Register extends Component {
       formValid: true,
       validID: false,
       IDNumber: '',
+      pass: '',
+      matchingPass: false,
+      name: '',
+      surname: '',
       genderValue: 0,
       radioButton: 'value1',
+      showNotification: false,
       validPass: false,
     };
 
@@ -50,18 +43,53 @@ export default class Register extends Component {
     this.handleNextButton = this.handleNextButton.bind(this);
     this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
     this.handleGenderState = this.handleGenderState.bind(this);
+    this.handleConfirmPassChange = this.handleConfirmPassChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleSurnameChange = this.handleSurnameChange.bind(this);
+    this.test = this.test.bind(this);
   }
 
-  handleNextButton() {
+  async handleNextButton() {
     // TODO: go to next register page.
+    const genders = ['Erkek', 'Kadın', 'Diğer'];
     this.setState({loadingVisible: true});
-    setTimeout(() => {
-      if (this.state.IDNumber === '12345678900' && this.state.validPass) {
-        this.setState({formValid: true, loadingVisible: false});
-      } else {
-        this.setState({formValid: false, loadingVisible: false});
-      }
-    }, 2000);
+    const response = await fetch(
+      `${Store.getInstance().IP}api/Login/Register`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          TCKN: this.state.IDNumber,
+          password: this.state.pass,
+          firstName: this.state.name,
+          surname: this.state.surname,
+          gender: genders[this.state.genderValue],
+        }),
+      },
+    )
+      // .then(data => (data['status'] == 200 ? data.json() : null))
+      .catch(error => console.error(error));
+    this.setState({showNotification: true});
+    if (response['status'] > 200) {
+      this.setState({formValid: false});
+    }
+    console.log(response);
+    this.setState({loadingVisible: false});
+  }
+
+  test() {
+    console.log(
+      this.state.IDNumber,
+      this.state.name,
+      this.state.surname,
+      this.state.matchingPass,
+      this.state.pass,
+      this.state.genderValue,
+    );
+    this.setState({showNotification: true, formValid: true});
   }
 
   handleIDChange(ID) {
@@ -83,23 +111,56 @@ export default class Register extends Component {
   handlePasswordChange(password) {
     if (!this.state.validPass) {
       if (password.length > 4) {
-        this.setState({validPass: true});
+        this.setState({validPass: true, pass: password});
       }
     } else if (password.length <= 4) {
-      this.setState({validPass: false});
+      this.setState({validPass: false, pass: ''});
+    }
+  }
+
+  handleConfirmPassChange(password) {
+    if (!this.state.matchingPass) {
+      if (password.length > 4 && password === this.state.pass) {
+        this.setState({matchingPass: true});
+      }
+    } else if (password.length <= 4) {
+      this.setState({matchingPass: false});
+    }
+  }
+
+  handleNameChange(name) {
+    const nameReg = /[a-zA-ZöÖüÜçÇşŞİığĞ]{3}/;
+    if (nameReg.test(name)) {
+      this.setState({name: name});
+    } else {
+      this.setState({name: ''});
+    }
+  }
+  handleSurnameChange(surname) {
+    const surnameReg = /[a-zA-ZöÖüÜçÇşŞİığĞ]{2}/;
+    if (surnameReg.test(surname)) {
+      this.setState({surname: surname});
+    } else {
+      this.setState({surname: ''});
     }
   }
 
   toggleNextButtonState() {
-    const {validID, validPass} = this.state;
-    if (validID && validPass) {
+    const {validID, validPass, matchingPass, name, surname} = this.state;
+    if (
+      validID &&
+      validPass &&
+      matchingPass &&
+      name.length !== 0 &&
+      surname.length !== 0
+    ) {
       return false;
     }
     return true;
   }
 
   handleCloseNotification() {
-    this.setState({formValid: true});
+    this.setState({formValid: true, showNotification: false});
   }
 
   handleGenderState(value) {
@@ -110,13 +171,13 @@ export default class Register extends Component {
 
   render() {
     var radio_props = [
-      {label: 'Male', value: 0},
-      {label: 'Female', value: 1},
-      {label: 'Other', value: 2},
+      {label: 'Erkek', value: 0},
+      {label: 'Kadın', value: 1},
+      {label: 'Diğer', value: 2},
     ];
     const {goBack} = this.props.navigation;
     const {formValid} = this.state;
-    const showNotification = formValid ? false : true;
+    const {showNotification} = this.state;
     const backgroundColors = formValid
       ? [colors.appLightColor, colors.appDarkColor]
       : [colors.errorLightColor, colors.errorDarkColor];
@@ -129,12 +190,12 @@ export default class Register extends Component {
           <View style={styles.viewStyle}>
             <View style={styles.topContent}>
               <BackButton handleNextButton={() => goBack()}></BackButton>
-              <Text style={styles.loginHeader}>Sign Up</Text>
+              <Text style={styles.loginHeader}>Kayıt Ol</Text>
             </View>
             <ScrollView style={styles.scrollViewStyle}>
               <View style={styles.inputViewStyle}>
                 <InputField
-                  labelText="TCID"
+                  labelText="TCKN"
                   inputType={'text'}
                   labelTextSize={14}
                   labelColor={colors.white}
@@ -146,7 +207,7 @@ export default class Register extends Component {
               <View style={styles.passViewStyle}>
                 <View style={styles.halfTextInput}>
                   <InputField
-                    labelText="Password"
+                    labelText="Şifre"
                     inputType={'password'}
                     labelTextSize={14}
                     labelColor={colors.white}
@@ -158,7 +219,7 @@ export default class Register extends Component {
                 </View>
                 <View style={styles.halfTextInput}>
                   <InputField
-                    labelText="Confirm"
+                    labelText="Şifre(Tekrar)"
                     inputType={'password'}
                     labelTextSize={14}
                     labelColor={colors.white}
@@ -166,27 +227,33 @@ export default class Register extends Component {
                     borderBottomColor={colors.white}
                     inputType="password"
                     customStyle={{marginBottom: 24}}
-                    onChangeText={this.handlePasswordChange}></InputField>
+                    onChangeText={this.handleConfirmPassChange}></InputField>
                 </View>
               </View>
-              <InputField
-                labelText="Name"
-                inputType={'text'}
-                labelTextSize={14}
-                labelColor={colors.white}
-                textColor={colors.white}
-                borderBottomColor={colors.white}
-                customStyle={{marginBottom: 24}}
-                onChangeText={this.handlePasswordChange}></InputField>
-              <InputField
-                labelText="Surname"
-                inputType={'text'}
-                labelTextSize={14}
-                labelColor={colors.white}
-                textColor={colors.white}
-                borderBottomColor={colors.white}
-                customStyle={{marginBottom: 24}}
-                onChangeText={this.handlePasswordChange}></InputField>
+              <View style={styles.fullNameView}>
+                <View style={styles.halfTextInput}>
+                  <InputField
+                    labelText="Ad"
+                    inputType={'text'}
+                    labelTextSize={14}
+                    labelColor={colors.white}
+                    textColor={colors.white}
+                    borderBottomColor={colors.white}
+                    customStyle={{marginBottom: 24}}
+                    onChangeText={this.handleNameChange}></InputField>
+                </View>
+                <View style={styles.halfTextInput}>
+                  <InputField
+                    labelText="Soyad"
+                    inputType={'text'}
+                    labelTextSize={14}
+                    labelColor={colors.white}
+                    textColor={colors.white}
+                    borderBottomColor={colors.white}
+                    customStyle={{marginBottom: 24}}
+                    onChangeText={this.handleSurnameChange}></InputField>
+                </View>
+              </View>
               <RadioForm
                 initial={0}
                 radio_props={radio_props}
@@ -197,7 +264,7 @@ export default class Register extends Component {
                 buttonStyle={styles.radioStyle}
                 buttonSize={15}
                 onPress={value => {
-                  this.setState({value: value});
+                  this.setState({genderValue: value});
                 }}></RadioForm>
             </ScrollView>
             <View style={styles.nextButtonStyle}>
@@ -213,10 +280,14 @@ export default class Register extends Component {
               <BottomNotification
                 showNotification={showNotification}
                 handleCloseNotification={this.handleCloseNotification}
-                notificationType={'Error'}
-                firstLine={'Lütfen alanları eksiksiz ve hatasız'}
+                notificationType={formValid ? 'Başarılı' : 'Hata'}
+                firstLine={
+                  formValid
+                    ? 'Kayıt oluşturdunuz.'
+                    : 'Böyle bir kullanıcı zaten mevcut.'
+                }
                 secondLine={
-                  'doldurduğunuzdan emin olunuz.'
+                  formValid ? 'Lütfen giriş yapınız.' : ' '
                 }></BottomNotification>
             </View>
           </View>
@@ -248,6 +319,11 @@ const styles = StyleSheet.create({
   },
   halfTextInput: {
     width: '44%',
+  },
+
+  fullNameView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 
   topContent: {

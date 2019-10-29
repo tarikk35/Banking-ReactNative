@@ -34,13 +34,13 @@ export default class LoggedOut extends React.Component {
               color={colors.white}
               imagePath={require('../img/signup-icon.png')}
               backgroundColor={colors.appDarkColor}
-              handleOnPress={()=>navigate('Test')}></RoundedButton>
-              <RoundedButton
+              handleOnPress={() => navigate('Register')}></RoundedButton>
+            <RoundedButton
               text="TEST"
               color={colors.white}
               imagePath={require('../img/signup-icon.png')}
               backgroundColor={colors.appDarkColor}
-              handleOnPress={()=>navigate('Home')}></RoundedButton>
+              handleOnPress={() => navigate('LoggedInStack')}></RoundedButton>
           </View>
         </View>
       </LinearGradient>

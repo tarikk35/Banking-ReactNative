@@ -1,14 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  ListView,
-} from 'react-native';
-import {Button} from 'native-base';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Colors from '../styles/colors';
 import Carousel from 'react-native-snap-carousel';
 import PropTypes from 'prop-types';
@@ -22,6 +13,7 @@ class CardCarousel extends Component {
   }
 
   _carouselItem({item, index}) {
+    const dateParts = item['closingDate'].split('-');
     return (
       <View>
         <View style={{height: 160, width: 240, borderRadius: 10}}>
@@ -44,28 +36,36 @@ class CardCarousel extends Component {
               color: Colors.grey4,
               fontSize: 18,
             }}>
-            {'1000000005001'
+            {item['IBAN']
               .substring(0, 13 - 4)
               .split('')
               .join(' ') +
               '  ' +
-              '1000000005001'
+              item['IBAN']
                 .substring(13 - 4, 13)
                 .split('')
                 .join(' ')}
           </Text>
         </View>
-        <View style={{top: -52, left: 15}}>
+        <View
+          style={{
+            top: -52,
+            left: 15,
+            flexDirection: 'row',
+          }}>
           <Text style={{fontFamily: 'Timeless'}}>TARIK KÖPRÜLÜ</Text>
+          <Text style={{fontFamily: 'Timeless', right: -60}}>
+            {`${dateParts[1]} / ${dateParts[0].substring(2, 4)}`}
+          </Text>
         </View>
       </View>
     );
   }
 
   render() {
+    const {accountList, onSnap} = this.props;
     return (
-      <View
-        style={{flex: 1, backgroundColor: Colors.grey1, flexDirection: 'row'}}>
+      <View style={{flex: 1, flexDirection: 'row'}}>
         <View
           style={{
             height: 200,
@@ -77,7 +77,8 @@ class CardCarousel extends Component {
           <Carousel
             sliderWidth={400}
             itemWidth={240}
-            data={[{title: 'Item1'}, {title: 'Item1'}, {title: 'Item1'}]}
+            onSnapToItem={onSnap.bind(this)}
+            data={accountList}
             renderItem={this._carouselItem}
             ref={c => {
               this._carousel = c;
@@ -90,6 +91,7 @@ class CardCarousel extends Component {
 
 CardCarousel.propTypes = {
   accountList: PropTypes.array,
+  onSnap: PropTypes.func,
 };
 
 export default CardCarousel;

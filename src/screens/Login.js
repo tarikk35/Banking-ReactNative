@@ -7,6 +7,7 @@ import NextArrowButton from '../components/buttons/NextArrowButton';
 import BottomNotification from '../components/BottomNotification';
 import Loader from '../components/Loader';
 import BackButton from '../components/buttons/BackButton';
+import Store from '../Store';
 
 import {
   View,
@@ -38,7 +39,7 @@ export default class Login extends Component {
   async handleNextButton(navigate) {
     this.setState({loadingVisible: true});
     try {
-      const response = await fetch('http://172.20.10.3/api/Login', {
+      const response = await fetch(`${Store.getInstance().IP}api/Login`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -47,10 +48,11 @@ export default class Login extends Component {
           pass: this.state.pass,
         },
       })
-        // .then(data => data.json())
+        .then(data => (data['status'] == 200 ? data.json() : null))
         .catch(error => console.error(error));
 
-      if (response['status'] == '200') {
+      if (response) {
+        Store.getInstance().setUserID(response);
         this.props.navigation.navigate('LoggedInStack');
       } else {
         this.setState({formValid: false});

@@ -58,7 +58,7 @@ export default class InputField extends Component {
         <TextInput
           style={[{borderBottomColor: borderColor}, styles.inputField]}
           backgroundColor={colors.white}
-          keyboardType={inputType === 'email' ? 'numeric' : 'twitter'}
+          keyboardType={inputType === 'email' ? 'number-pad' : 'twitter'}
           autoCorrect={false}
           secureTextEntry={secureInput}
           onChangeText={onChangeText}

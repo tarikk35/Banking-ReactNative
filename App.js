@@ -27,7 +27,6 @@ import Login from './src/screens/Login';
 import Register from './src/screens/Register';
 import Test from './src/screens/Test';
 import Home from './src/screens/Home';
-import Home2 from './src/screens/Home2';
 import colors from './src/styles/colors';
 import Homepage from './src/screens/Homepage';
 import Transfer from './src/screens/Transfer';
@@ -35,67 +34,86 @@ import PutMoney from './src/screens/PutMoney';
 import PullMoney from './src/screens/PullMoney';
 import Virman from './src/screens/Virman';
 import Account from './src/screens/Accounts';
+import Profile from './src/screens/Profile';
+import Transactions from './src/screens/Transactions';
 
 const ripple = TouchableNativeFeedback.Ripple('#adacac', false);
 
-const CustomDrawerComponent = props => (
-  <View style={{flex: 1}}>
-    <ScrollView>
-      <SafeAreaView
-        style={styles.container}
-        forceInset={{top: 'always', horizontal: 'never'}}>
-        <View
-          style={[
-            styles.containHeader,
-            {backgroundColor: colors.appDarkColor},
-          ]}>
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={props.navigation.closeDrawer}>
+class CustomDrawerComponent extends Component {
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <ScrollView>
+          <SafeAreaView
+            style={styles.container}
+            forceInset={{top: 'always', horizontal: 'never'}}>
+            <View
+              style={[
+                styles.containHeader,
+                {backgroundColor: colors.appDarkColor},
+              ]}>
+              <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <TouchableOpacity
+                  style={styles.backButton}
+                  onPress={this.props.navigation.closeDrawer}>
+                  <Image
+                    source={require('./src/img/close-icon.png')}
+                    style={styles.backIcon}></Image>
+                </TouchableOpacity>
+                <Image
+                  source={require('./src/img/avatar.png')}
+                  style={styles.customerIcon}></Image>
+
+                <Text
+                  style={{
+                    color: colors.white,
+                    marginTop: '3%',
+                  }}>{`Selam Müsteri`}</Text>
+                <Text style={{color: colors.white}}>{`123456`}</Text>
+              </View>
+            </View>
+
+            <DrawerNavigatorItems
+              labelStyle={{fontFamily: 'Timeless'}}
+              {...this.props}
+            />
+
+            <View>
+              <View style={{marginTop: '2%'}}>
+                <Divider style={{backgroundColor: '#777f7c90'}} />
+              </View>
+              <View style={{marginTop: '3%'}}></View>
+              <View style={{marginTop: '5%'}}>
+                <Divider style={{backgroundColor: '#777f7c90'}} />
+              </View>
+            </View>
+          </SafeAreaView>
+        </ScrollView>
+
+        <View elevation={6} style={{backgroundColor: '#b80f0a'}}>
+          <TouchableNativeFeedback
+            background={ripple}
+            onPress={() => this.props.navigation.navigate('LoggedOutStack')}>
+            <View style={styles.logoutView}>
               <Image
-                source={require('./src/img/close-icon.png')}
-                style={styles.backIcon}></Image>
-            </TouchableOpacity>
-            <Image
-              source={require('./src/img/avatar.png')}
-              style={styles.customerIcon}></Image>
-
-            <Text
-              style={{
-                color: colors.white,
-                marginTop: '3%',
-              }}>{`Selam Müsteri`}</Text>
-            <Text style={{color: colors.white}}>{`123456`}</Text>
-          </View>
+                source={require('./src/img/back-icon.png')}
+                tintColor={colors.white}
+                style={styles.logoutIcon}></Image>
+              <Text
+                style={{
+                  color: colors.white,
+                  fontSize: 24,
+                  fontFamily: 'Timeless',
+                }}>
+                Çıkış Yap
+              </Text>
+            </View>
+          </TouchableNativeFeedback>
         </View>
-
-        <DrawerNavigatorItems {...props} />
-
-        <View>
-          <View style={{marginTop: '2%'}}>
-            <Divider style={{backgroundColor: '#777f7c90'}} />
-          </View>
-          <View style={{marginTop: '3%'}}></View>
-          <View style={{marginTop: '5%'}}>
-            <Divider style={{backgroundColor: '#777f7c90'}} />
-          </View>
-        </View>
-      </SafeAreaView>
-    </ScrollView>
-
-    <View elevation={6} style={{backgroundColor: '#b80f0a'}}>
-      <TouchableNativeFeedback background={ripple}>
-        <View style={styles.logoutView}>
-          <Image
-            source={require('./src/img/back-icon.png')}
-            style={styles.logoutIcon}></Image>
-          <Text style={{color: colors.white, fontSize: 24}}>Çıkış Yap</Text>
-        </View>
-      </TouchableNativeFeedback>
-    </View>
-  </View>
-);
+      </View>
+    );
+  }
+}
 
 const LoggedInDrawer = createDrawerNavigator(
   {
@@ -117,6 +135,14 @@ const LoggedInDrawer = createDrawerNavigator(
     },
     Virman: {
       screen: Virman,
+      navigationOptions: {header: null},
+    },
+    'Geçmiş İşlemlerim': {
+      screen: Transactions,
+      navigationOptions: {header: null},
+    },
+    'Profil Ayarları': {
+      screen: Profile,
       navigationOptions: {header: null},
     },
   },
@@ -212,6 +238,7 @@ const styles = StyleSheet.create({
   },
   logoutIcon: {
     width: 60,
+    left: -50,
     height: 60,
   },
   customerIcon: {
