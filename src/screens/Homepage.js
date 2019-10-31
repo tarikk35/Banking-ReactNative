@@ -18,10 +18,17 @@ class Homepage extends Component {
       carouselIndex: 0,
     };
     this.handleSnapToItem = this.handleSnapToItem.bind(this);
+    this.fetchData = this.fetchData.bind(this);
   }
 
   componentDidMount() {
-    return fetch(`${Store.getInstance().IP}api/Account`, {
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.fetchData();
+    });
+  }
+
+  async fetchData() {
+    await fetch(`${Store.getInstance().IP}api/Account`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -41,7 +48,13 @@ class Homepage extends Component {
           tempBalance = tempBalance + i['balance'];
         });
         this.setState({balance: tempBalance});
-      });
+      })
+      .catch(e => console.error(e));
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
   }
 
   handleSnapToItem(index) {

@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {
+  createAppContainer,
+  createSwitchNavigator,
+} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {
   createDrawerNavigator,
@@ -167,6 +170,7 @@ const LoggedInStack = createStackNavigator(
     Account: {screen: Account},
   },
   {
+    mode: 'modal',
     defaultNavigationOptions: {
       header: null,
     },
