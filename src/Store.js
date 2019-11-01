@@ -3,7 +3,7 @@ export default class DataStore {
 
   _userID = '';
 
-  IP='http://192.168.8.134/';
+  IP='http://192.168.0.46/';
 
   userFullName='';
 

@@ -8,25 +8,26 @@ class TransactionCard extends Component {
     return (
       <View
         style={{
-          marginHorizontal: 10,
-          marginBottom: 16,
+          marginBottom: 12,
           height: 110,
           backgroundColor: Colors.grey7,
           borderRadius: 12,
+          width:'94%',
+          marginLeft:'3%',
         }}>
         <Text
           style={{
             color: Colors.white,
             marginTop: 15,
-            left: 300,
+            marginLeft:20,
             fontFamily: 'Timeless',
           }}>
-          {transaction['transactionDate']}
+          {transaction['transactionDate'].split('T')[0]}
         </Text>
         <Text
           style={{
             color: Colors.white,
-            fontSize: 21,
+            fontSize: 18,
             marginTop: 10,
             left: 30,
             fontFamily: 'Timeless',
@@ -39,13 +40,13 @@ class TransactionCard extends Component {
             justifyContent: 'space-between',
             flexGrow: 1,
             marginTop: 20,
-            marginHorizontal: 40,
+            marginHorizontal: 20,
           }}>
           <Text style={{color: Colors.white, fontFamily: 'Timeless'}}>
             {transaction['type']}
           </Text>
           <Text style={{color: Colors.white, fontFamily: 'Timeless'}}>
-            {transaction['amount']}
+            {`\$ ${transaction['amount']}`}
           </Text>
         </View>
       </View>
