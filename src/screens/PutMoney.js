@@ -52,7 +52,7 @@ class PutMoney extends Component {
 
 
   async fetchAccounts() {
-    await fetch(`${Store.getInstance().IP}api/Account`, {
+    await fetch(`${Store.getInstance().IP}api/Account/List`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -105,7 +105,7 @@ class PutMoney extends Component {
 
   async handleOnPress() {
     this.setState({isLoading: true});
-    const response = await fetch(`${Store.getInstance().IP}api/Trans2`, {
+    const response = await fetch(`${Store.getInstance().IP}api/Trans2/Push`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',

@@ -28,7 +28,7 @@ class Homepage extends Component {
   }
 
   async fetchData() {
-    await fetch(`${Store.getInstance().IP}api/Account`, {
+    await fetch(`${Store.getInstance().IP}api/Account/List`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',

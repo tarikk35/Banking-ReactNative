@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 
-import {
-  createAppContainer,
-  createSwitchNavigator,
-} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {
   createDrawerNavigator,
@@ -39,6 +36,7 @@ import Virman from './src/screens/Virman';
 import Account from './src/screens/Accounts';
 import Profile from './src/screens/Profile';
 import Transactions from './src/screens/Transactions';
+import Payment from './src/screens/Payment';
 
 const ripple = TouchableNativeFeedback.Ripple('#adacac', false);
 
@@ -142,6 +140,10 @@ const LoggedInDrawer = createDrawerNavigator(
     },
     'Geçmiş İşlemlerim': {
       screen: Transactions,
+      navigationOptions: {header: null},
+    },
+    'Fatura Ödeme': {
+      screen: Payment,
       navigationOptions: {header: null},
     },
     'Profil Ayarları': {

@@ -73,7 +73,8 @@ class Test extends Component {
   // }
 
   onPickerValueChange(value, index) {
-    this.setState({selectedItemVal: value});
+    console.log(value);
+    this.setState({selectedAccount: value});
   }
 
   accountPickers() {
@@ -101,7 +102,7 @@ class Test extends Component {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        customNum: '100000000', // TODO
+        customNum: Store.getInstance()._userID,
         phoneNumber: this.state.phoneText.toString(),
       },
     })
@@ -137,7 +138,7 @@ class Test extends Component {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        customNum: '100000000', // TODO
+        customNum: Store.getInstance()._userID,
         phoneNumber: this.state.phoneText.toString(),
         iban: this.state.selectedAccount,
       },
@@ -179,7 +180,7 @@ class Test extends Component {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        customNum: '100000000', // TODO
+        customNum: Store.getInstance()._userID,
       },
     })
       .then(response => response.json())
@@ -247,7 +248,7 @@ class Test extends Component {
                 placeholder="Gönderilecek Hesap Seç"
                 placeholderStyle={{color: '#bfc6ea'}}
                 placeholderIconColor="#007aff"
-                selectedValue={this.state.selectedItemVal}
+                selectedValue={this.state.selectedAccount}
                 onValueChange={this.onPickerValueChange}>
                 {this.accountPickers()}
               </Picker>

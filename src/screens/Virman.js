@@ -40,7 +40,7 @@ class Virman extends Component {
   }
 
   async fetchData() {
-    await fetch(`${Store.getInstance().IP}api/Account`, {
+    await fetch(`${Store.getInstance().IP}api/Account/List`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -95,7 +95,7 @@ class Virman extends Component {
   }
   async handleOnPress() {
     this.setState({isLoading: true});
-    const response = await fetch(`${Store.getInstance().IP}api/Trans`, {
+    const response = await fetch(`${Store.getInstance().IP}api/Trans/Post`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',

@@ -39,7 +39,7 @@ export default class Login extends Component {
   async handleNextButton(navigate) {
     this.setState({loadingVisible: true});
     try {
-      const response = await fetch(`${Store.getInstance().IP}api/Login`, {
+      const response = await fetch(`${Store.getInstance().IP}api/Login/login`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',

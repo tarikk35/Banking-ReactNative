@@ -53,7 +53,7 @@ class componentName extends Component {
   }
 
   async fetchAccounts() {
-    await fetch(`${Store.getInstance().IP}api/Account`, {
+    await fetch(`${Store.getInstance().IP}api/Account/List`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -106,7 +106,7 @@ class componentName extends Component {
 
   async handleOnPress() {
     this.setState({isLoading: true});
-    const response = await fetch(`${Store.getInstance().IP}api/Trans`, {
+    const response = await fetch(`${Store.getInstance().IP}api/Trans/pull`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
