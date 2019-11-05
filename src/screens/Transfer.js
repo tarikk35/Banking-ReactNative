@@ -90,7 +90,7 @@ class Transfer extends Component {
           label={`${item['IBAN'].substring(0, 9)}  ${item['IBAN'].substring(
             9,
             13,
-          )}     |    \$ ${item['balance']}`}></Picker.Item>
+          )}     |    ₺ ${item['balance']}`}></Picker.Item>
       );
     });
   }
@@ -172,6 +172,7 @@ class Transfer extends Component {
                   <Label style={{color: Colors.white}}>Seçilen Hesap</Label>
                   <Item picker>
                     <Picker
+                    style={{color:Colors.white}}
                       mode="dropdown"
                       iosIcon={<Icon name="arrow-down" />}
                       placeholder="Gönderilecek Hesap Seç"

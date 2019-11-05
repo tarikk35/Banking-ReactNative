@@ -35,7 +35,7 @@ class Test extends Component {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        customNum: 100000000,
+        customNum: `${Store.getInstance().getUserID()}`,
       },
     })
       .then(response => (response['status'] == 200 ? response.json() : null))

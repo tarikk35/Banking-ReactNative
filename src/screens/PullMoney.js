@@ -99,7 +99,7 @@ class componentName extends Component {
           label={`${item['IBAN'].substring(0, 9)}  ${item['IBAN'].substring(
             9,
             13,
-          )}     |    \$ ${item['balance']}`}></Picker.Item>
+          )}     |    ₺ ${item['balance']}`}></Picker.Item>
       );
     });
   }
@@ -155,6 +155,7 @@ class componentName extends Component {
                 <Item picker>
                   <Picker
                     mode="dropdown"
+                    style={{color:Colors.white}}
                     iosIcon={<Icon name="arrow-down" />}
                     placeholder="Gönderilecek Hesap Seç"
                     placeholderStyle={{color: '#bfc6ea'}}

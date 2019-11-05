@@ -6,6 +6,7 @@ import HeaderWithDrawer from '../components/HeaderWithMenu';
 import CardCarousel from '../components/CardCarousel';
 import Loader from '../components/Loader';
 import Store from '../Store';
+import BottomNotification from '../components/BottomNotification';
 
 class Homepage extends Component {
   constructor(props) {
@@ -14,11 +15,15 @@ class Homepage extends Component {
       isLoading: true,
       accounts: [],
       balance: 0,
+      showNotification: false,
+      formValid: true,
       activeAccountCount: 0,
       carouselIndex: 0,
     };
     this.handleSnapToItem = this.handleSnapToItem.bind(this);
     this.fetchData = this.fetchData.bind(this);
+    this.onAccountDel = this.onAccountDel.bind(this);
+    this.handleCloseNotification = this.handleCloseNotification.bind(this);
   }
 
   componentDidMount() {
@@ -27,7 +32,22 @@ class Homepage extends Component {
     });
   }
 
+  onAccountDel = isValid => {
+    if (isValid) {
+      this.fetchData().then(res =>
+        this.setState({showNotification: true, formValid: isValid}),
+      );
+    } else {
+      this.setState({showNotification: true, formValid: isValid});
+    }
+  };
+
+  handleCloseNotification() {
+    this.setState({showNotification: false, formValid: true});
+  }
+
   async fetchData() {
+    this.setState({isLoading: true});
     await fetch(`${Store.getInstance().IP}api/Account/List`, {
       method: 'GET',
       headers: {
@@ -74,7 +94,11 @@ class Homepage extends Component {
         // renkler arası geçiş yapıyor. flex:1 alabildiği tüm alanı almaya çalışıyor
         <LinearGradient
           style={{flex: 1}}
-          colors={[Colors.appDarkColor, Colors.grey5]}>
+          colors={
+            this.state.formValid
+              ? [Colors.appDarkColor, Colors.appLightColor]
+              : [Colors.errorLightColor, Colors.errorDarkColor]
+          }>
           <View style={{flex: 1}}>
             <HeaderWithDrawer
               title="HIGH FIVE MOBILE"
@@ -84,6 +108,7 @@ class Homepage extends Component {
             <ScrollView>
               <CardCarousel
                 accountList={this.state.accounts}
+                onAccountDel={this.onAccountDel}
                 onSnap={this.handleSnapToItem}></CardCarousel>
               <View
                 style={{
@@ -99,7 +124,7 @@ class Homepage extends Component {
                 <Text style={{fontSize: 16, color: Colors.white}}>
                   Hesap Bakiyesi
                 </Text>
-                <Text style={{fontSize: 24, color: Colors.white}}>{`\$ ${
+                <Text style={{fontSize: 24, color: Colors.white}}>{`₺ ${
                   this.state.accounts[this.state.carouselIndex]['balance']
                 }`}</Text>
               </View>
@@ -123,7 +148,7 @@ class Homepage extends Component {
                     Toplam Mevduatınız
                   </Text>
                   <Text style={{fontSize: 27, color: Colors.white}}>
-                    {`\$ ${this.state.balance}`}
+                    {`₺ ${this.state.balance}`}
                   </Text>
                 </View>
                 <View
@@ -141,6 +166,15 @@ class Homepage extends Component {
                 </View>
               </View>
             </ScrollView>
+            <BottomNotification
+              showNotification={this.state.showNotification}
+              handleCloseNotification={this.handleCloseNotification}
+              notificationType={this.state.formValid ? 'Başarılı' : 'Hata'}
+              firstLine={
+                this.state.formValid
+                  ? 'Hesap başarılı bir şekilde silindi.'
+                  : 'Lütfen hesabın boş olduğuna emini olunuz.'
+              }></BottomNotification>
           </View>
         </LinearGradient>
       );

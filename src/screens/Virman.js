@@ -85,7 +85,7 @@ class Virman extends Component {
           label={`${item['IBAN'].substring(0, 9)}  ${item['IBAN'].substring(
             9,
             13,
-          )}     |    \$ ${item['balance']}`}></Picker.Item>
+          )}     |    ₺ ${item['balance']}`}></Picker.Item>
       );
     });
   }
@@ -162,6 +162,7 @@ class Virman extends Component {
                 <Item picker>
                   <Picker
                     mode="dropdown"
+                    style={{color:Colors.white}}
                     iosIcon={<Icon name="arrow-down" />}
                     placeholder="Gönderilecek Hesap Seç"
                     placeholderStyle={{color: '#bfc6ea'}}
@@ -177,9 +178,10 @@ class Virman extends Component {
                 <Item picker>
                   <Picker
                     mode="dropdown"
+                    style={{color:Colors.white}}
                     textStyle={{fontFamily: 'Roboto'}}
                     itemTextStyle={{fontFamily: 'Roboto'}}
-                    iosIcon={<Icon name="arrow-down" />}
+                    iosIcon={<Icon style={{color: Colors.white}} name="arrow-down" />}
                     placeholder="Gönderilecek Hesap Seç"
                     placeholderStyle={{color: '#bfc6ea'}}
                     placeholderIconColor="#007aff"

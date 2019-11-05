@@ -244,7 +244,9 @@ class Test extends Component {
               <Picker
                 style={{color: Colors.white}}
                 mode="dropdown"
-                iosIcon={<Icon name="arrow-down" />}
+                iosIcon={
+                  <Icon style={{color: Colors.white}} name="arrow-down" />
+                }
                 placeholder="Gönderilecek Hesap Seç"
                 placeholderStyle={{color: '#bfc6ea'}}
                 placeholderIconColor="#007aff"

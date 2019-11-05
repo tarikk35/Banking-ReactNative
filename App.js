@@ -37,6 +37,7 @@ import Account from './src/screens/Accounts';
 import Profile from './src/screens/Profile';
 import Transactions from './src/screens/Transactions';
 import Payment from './src/screens/Payment';
+import Store from './src/Store';
 
 const ripple = TouchableNativeFeedback.Ripple('#adacac', false);
 
@@ -94,7 +95,10 @@ class CustomDrawerComponent extends Component {
         <View elevation={6} style={{backgroundColor: '#b80f0a'}}>
           <TouchableNativeFeedback
             background={ripple}
-            onPress={() => this.props.navigation.navigate('LoggedOutStack')}>
+            onPress={() => {
+              Store.getInstance().setUserID('');
+              this.props.navigation.navigate('LoggedOutStack');
+            }}>
             <View style={styles.logoutView}>
               <Image
                 source={require('./src/img/back-icon.png')}
